@@ -33,12 +33,10 @@ void interrupts_init(void) {
 
 int console_getc(char *c) {
     int got = 0;
-    minemu_irq_disable();
     if (tail != head) { 
         *c = buf[tail]; 
         tail = (tail + 1) % BUF_SIZE;
         got = 1;
     }
-    minemu_irq_enable();
     return got;
 }
