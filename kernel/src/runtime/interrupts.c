@@ -2,7 +2,7 @@
 #include "minemu/irq.h"
 #include "minemu/trap.h"
 
-#define BUF_SIZE 64
+#define BUF_SIZE 512
 static volatile char buf[BUF_SIZE];
 static volatile uint32_t head = 0;
 static volatile uint32_t tail = 0;
@@ -33,7 +33,8 @@ void interrupts_init(void) {
 
 int console_getc(char *c) {
     int got = 0;
-    if (tail != head) { 
+    uart_handler();
+    if (tail != head) {
         *c = buf[tail]; 
         tail = (tail + 1) % BUF_SIZE;
         got = 1;
